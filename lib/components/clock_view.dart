@@ -15,14 +15,8 @@ class _ClockViewState extends State<ClockView> {
     return Container(
       height: 300,
       width: 300,
-      child: TweenAnimationBuilder<double>(
-        tween: Tween(begin: pi, end: pi - pi * 2),
-        duration: Duration(seconds: 60),
-        builder: (context, value, child) {
-          return CustomPaint(
-            painter: ClockPainter(value),
-          );
-        },
+      child: CustomPaint(
+        painter: ClockPainter(12, 43, 1),
       ),
     );
   }
@@ -30,11 +24,16 @@ class _ClockViewState extends State<ClockView> {
 // creating the Clock Painter Class
 
 class ClockPainter extends CustomPainter {
-  double seconds = pi / 2;
-  ClockPainter(this.seconds);
+  double? seconds;
+  double? minutes;
+  double? hours;
+  ClockPainter(this.hours, this.minutes, this.seconds);
 
   @override
   void paint(Canvas canvas, Size size) {
+    //setting the time conversion
+    double secRad = ((pi / 2) - (pi / 30) * this.seconds!) % (2 * pi);
+
     // cetting the Center point coordinates
     var centerX = size.width / 2;
     var centerY = size.height / 2;
@@ -46,12 +45,12 @@ class ClockPainter extends CustomPainter {
     var minHeight = radius / 2 - 10;
     var hoursHeight = radius / 2 - 20;
 
-    var seconds = Offset(centerX + sin(this.seconds) * secHeight,
-        centerY + cos(this.seconds) * secHeight);
+    var seconds = Offset(
+        centerX + secHeight * cos(secRad), centerY - secHeight * sin(secRad));
     var minutes = Offset(
-        centerX + sin(pi / 4) * minHeight, centerY + cos(pi / 4) * minHeight);
-    var hours = Offset(centerX + sin(pi / 3) * hoursHeight,
-        centerY + cos(pi / 3) * hoursHeight);
+        centerX + cos(pi / 2) * minHeight, centerY - sin(pi / 2) * minHeight);
+    var hours = Offset(centerX + cos(pi / 2) * hoursHeight,
+        centerY - sin(pi / 2) * hoursHeight);
 
     // Setting the Fillbrush paint
     var fillBrush = Paint()
