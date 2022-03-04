@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:analog_clock/ui/colors.dart';
 import 'package:analog_clock/utils/time.dart';
 import 'package:flutter/material.dart';
 
@@ -14,6 +15,12 @@ class _ClockViewState extends State<ClockView> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      decoration: BoxDecoration(shape: BoxShape.circle, boxShadow: [
+        BoxShadow(
+          color: AppStyle.primaryColor.withAlpha(80),
+          blurRadius: 38.0,
+        )
+      ]),
       height: 300,
       width: 300,
       child: CustomPaint(
@@ -47,7 +54,7 @@ class ClockPainter extends CustomPainter {
     /* Setting the Time coordinates */
     var secHeight = radius / 2;
     var minHeight = radius / 2 - 10;
-    var hoursHeight = radius / 2 - 20;
+    var hoursHeight = radius / 2 - 25;
 
     var seconds = Offset(
         centerX + secHeight * cos(secRad), centerY - secHeight * sin(secRad));
@@ -58,41 +65,42 @@ class ClockPainter extends CustomPainter {
 
     // Setting the Fillbrush paint
     var fillBrush = Paint()
-      ..color = Color(0xFF444974)
+      ..color = AppStyle.primaryColor
       ..strokeCap = StrokeCap.round;
 
-    var outlineBrush = Paint()
+    /*  var outlineBrush = Paint()
       ..color = Color(0xFFEAECFF)
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 16;
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 16; */
 
     var centerDotBrush = Paint()..color = Color(0xFFEAECFF);
 
     /* Setting the hands brush */
 
     var secHandBrush = Paint()
-      ..color = Colors.orange.shade600
+      ..color = Colors.red
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round
-      ..strokeWidth = 8
+      ..strokeWidth = 2
       ..strokeJoin = StrokeJoin.round;
 
     var minHandBrush = Paint()
-      ..color = Colors.blue.shade600
+      ..color = Colors.white
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round
-      ..strokeWidth = 12
+      ..strokeWidth = 3
       ..strokeJoin = StrokeJoin.round;
 
     var hourHandBrush = Paint()
-      ..color = Colors.pink.shade600
+      ..color = Colors.white
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round
-      ..strokeWidth = 12
+      ..strokeWidth = 5
       ..strokeJoin = StrokeJoin.round;
 
     canvas.drawCircle(center, radius - 40, fillBrush);
-    canvas.drawCircle(center, radius - 40, outlineBrush);
+    // canvas.drawCircle(center, radius - 40, outlineBrush);
 
     // drawing the sec hand
     canvas.drawLine(center, seconds, secHandBrush);

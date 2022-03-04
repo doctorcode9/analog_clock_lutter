@@ -5,9 +5,14 @@ class AppStyle {
   static Color primaryColorDark = const Color(0xFF193BB1);
 
   /* Definining text style */
-  TextStyle maintext = const TextStyle(
+  static TextStyle maintext = const TextStyle(
     color: Colors.black,
-    fontSize: 26.0,
+    fontSize: 32.0,
     fontWeight: FontWeight.bold,
+  );
+  static TextStyle mainTextThin = const TextStyle(
+    color: Colors.black,
+    fontSize: 32.0,
+    fontWeight: FontWeight.normal,
   );
 }

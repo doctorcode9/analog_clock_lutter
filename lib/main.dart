@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:analog_clock/components/clock_view.dart';
+import 'package:analog_clock/ui/colors.dart';
 import 'package:analog_clock/utils/time.dart';
 import 'package:flutter/material.dart';
 import 'package:timer_builder/timer_builder.dart';
@@ -54,42 +55,54 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
       backgroundColor: Color(0xFFfafafa),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Center(
-            child: TimerBuilder.periodic(
-              Duration(seconds: 1),
-              builder: (context) {
-                //getting the time
-                String second = DateTime.now().second < 10
-                    ? "0${DateTime.now().second}"
-                    : DateTime.now().second.toString();
-                String minute = DateTime.now().minute < 10
-                    ? "0${DateTime.now().minute}"
-                    : DateTime.now().minute.toString();
-                String hour = DateTime.now().hour < 10
-                    ? "0${DateTime.now().hour}"
-                    : DateTime.now().hour.toString();
-                return Column(
-                  children: [
-                    Text(
-                      "${hour}:${minute}:${second}",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 34.0,
-                        fontWeight: FontWeight.bold,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              TimerBuilder.periodic(
+                Duration(seconds: 1),
+                builder: (context) {
+                  //getting the time
+                  String second = DateTime.now().second < 10
+                      ? "0${DateTime.now().second}"
+                      : DateTime.now().second.toString();
+                  String minute = DateTime.now().minute < 10
+                      ? "0${DateTime.now().minute}"
+                      : DateTime.now().minute.toString();
+                  String hour = DateTime.now().hour < 10
+                      ? "0${DateTime.now().hour}"
+                      : DateTime.now().hour.toString();
+                  String day = DateTime.now().toString();
+                  return Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Today",
+                            style: AppStyle.mainTextThin,
+                          ),
+                          Text(
+                            "${hour}:${minute}",
+                            style: AppStyle.maintext,
+                          ),
+                        ],
                       ),
-                    ),
-                    ClockView(DataTime(DateTime.now().hour,
-                        DateTime.now().minute, DateTime.now().second)),
-                  ],
-                );
-              },
-            ),
+                      SizedBox(
+                        height: 40.0,
+                      ),
+                      ClockView(DataTime(DateTime.now().hour,
+                          DateTime.now().minute, DateTime.now().second)),
+                    ],
+                  );
+                },
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
