@@ -1,7 +1,7 @@
-class Time {
+class DataTime {
   int? sec;
   int? min;
   int? hour;
 
-  Time({this.hour, this.min, this.sec});
+  DataTime(this.hour, this.min, this.sec);
 }

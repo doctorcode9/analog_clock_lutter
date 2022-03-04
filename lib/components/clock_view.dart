@@ -1,10 +1,11 @@
 import 'dart:math';
 
+import 'package:analog_clock/utils/time.dart';
 import 'package:flutter/material.dart';
 
 class ClockView extends StatefulWidget {
-  const ClockView({Key? key}) : super(key: key);
-
+  ClockView(this.time, {Key? key}) : super(key: key);
+  DataTime time;
   @override
   _ClockViewState createState() => _ClockViewState();
 }
@@ -16,7 +17,8 @@ class _ClockViewState extends State<ClockView> {
       height: 300,
       width: 300,
       child: CustomPaint(
-        painter: ClockPainter(12, 43, 1),
+        painter:
+            ClockPainter(widget.time.hour, widget.time.min, widget.time.sec),
       ),
     );
   }
@@ -24,15 +26,17 @@ class _ClockViewState extends State<ClockView> {
 // creating the Clock Painter Class
 
 class ClockPainter extends CustomPainter {
-  double? seconds;
-  double? minutes;
-  double? hours;
+  int? seconds;
+  int? minutes;
+  int? hours;
   ClockPainter(this.hours, this.minutes, this.seconds);
 
   @override
   void paint(Canvas canvas, Size size) {
     //setting the time conversion
     double secRad = ((pi / 2) - (pi / 30) * this.seconds!) % (2 * pi);
+    double minRad = ((pi / 2) - (pi / 30) * this.minutes!) % (2 * pi);
+    double hourRad = ((pi / 2) - (pi / 6) * this.hours!) % (2 * pi);
 
     // cetting the Center point coordinates
     var centerX = size.width / 2;
@@ -48,9 +52,9 @@ class ClockPainter extends CustomPainter {
     var seconds = Offset(
         centerX + secHeight * cos(secRad), centerY - secHeight * sin(secRad));
     var minutes = Offset(
-        centerX + cos(pi / 2) * minHeight, centerY - sin(pi / 2) * minHeight);
-    var hours = Offset(centerX + cos(pi / 2) * hoursHeight,
-        centerY - sin(pi / 2) * hoursHeight);
+        centerX + cos(minRad) * minHeight, centerY - sin(minRad) * minHeight);
+    var hours = Offset(centerX + cos(hourRad) * hoursHeight,
+        centerY - sin(hourRad) * hoursHeight);
 
     // Setting the Fillbrush paint
     var fillBrush = Paint()
